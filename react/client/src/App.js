@@ -42,23 +42,22 @@ export default class App extends Component {
       });
       if (this.state.login) {
         var todo = this.state.term;
-        var enabled = 1; // при добавлении всегда тру
         var userEmail = this.state.email;
-        this.addToDO(todo, enabled, userEmail)
+        this.addToDO(todo, userEmail);
+
       }
 
     }
   }
 
   // Занести строчку в базу данных
-  addToDO(todo, enabled, userEmail) {
+  addToDO(todo,  userEmail) {
 
     // Создаем и добавляем строку
     var myFfet = {
       method: "POST",
       body: JSON.stringify({
         todo: todo,
-        enabled: enabled,
         userEmail: userEmail
       }),
       headers: { "Content-Type": "application/json" }
@@ -74,14 +73,14 @@ export default class App extends Component {
     var items = this.state.items;
     var this1 = this;
     items.forEach(function (item, i, items) {
-      this1.addToDO(item, true, this1.state.email);
+      this1.addToDO(item, this1.state.email);
     })
   }
 
   // Загрузить из базы данных список
   DwlndToDO() {
     var userEmail = this.state.email;
-
+    console.log(userEmail);
     // Создаем и добавляем строку
     var myFfet = {
       method: "POST",

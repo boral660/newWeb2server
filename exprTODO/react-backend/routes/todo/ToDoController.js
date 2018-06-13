@@ -10,7 +10,6 @@ var ToDo = require('./ToDo');
 router.post('/create', function (req, res) {
     ToDo.create({
             todo : req.body.todo,
-            enabled : req.body.enabled,
             userEmail : req.body.userEmail
         }, 
         function (err, ToDoList) {

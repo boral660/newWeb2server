@@ -50,6 +50,7 @@ export default class RegButt extends Component {
             this.props.app.addToDOList();
           } else {
             // Сообщить о том, что пользователь уже существует
+            this.props.seans.writeMessage("Пользователь с таким email уже существует")
             console.log("Пользователь уже существует");
           }
         });

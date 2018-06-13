@@ -13,9 +13,38 @@ export default class LogIn extends Component {
     this.state = {
       passwordError: false, emailError: false,
       email: "", password: "",
+      textForEmail : "Введите в формате test@mail.com", textForPassword: "Допускаются только латинские буквы и цифры",
       login: false
     };
   }
+  writeMessage (text, standart)
+{
+  if(standart){
+  this.setState({
+    textForEmail: "Введите в формате test@mail.com"
+  });
+  }else
+  {
+    this.setState({
+      emailError:true,
+      textForEmail: text
+    });
+  }
+}
+writeMessageOnPassword (text, standart)
+{
+  if(standart){
+  this.setState({
+    textForPassword: "Допускаются только латинские буквы и цифры"
+  });
+  }else
+  {
+    this.setState({
+      passwordError: true,
+      textForPassword: text
+    });
+  }
+}
 
   onInputEm = (event) => {
     var r = /^[\w\.\d-_]+@[\w\.\d-_]+\.\w{2,4}$/i;
@@ -23,6 +52,7 @@ export default class LogIn extends Component {
       this.setState({
         emailError: true
       });
+      this.writeMessage ("", true);
     }
     else {
       this.setState({
@@ -37,6 +67,7 @@ export default class LogIn extends Component {
       this.setState({
         passwordError: true
       });
+      this.writeMessageOnPassword(true);
     }
     else {
       this.setState({
@@ -53,12 +84,12 @@ export default class LogIn extends Component {
         {!this.state.login ?
           <form onSubmit={this.onSubmit}>
             {this.state.emailError ?
-              <TextField label="Email" error onChange={this.onInputEm} placeholder="simple@simple.com" style={{ width: 200 }} />
-              : <TextField label="Email" onChange={this.onInputEm} placeholder="simple@simple.com" style={{ width: 200 }} />}
+              <TextField label="Email" error onChange={this.onInputEm} helperText={this.state.textForEmail} placeholder="simple@simple.com" style={{ width: 200 }} />
+              : <TextField label="Email" onChange={this.onInputEm}  placeholder="simple@simple.com" style={{ width: 200 }} />}
             <p></p>
             {this.state.passwordError ?
-              <TextField label="Password" error onChange={this.onInputPass} placeholder="..." style={{ width: 200 }} />
-              : <TextField label="Password" onChange={this.onInputPass} placeholder="..." style={{ width: 200 }} />}
+              <TextField label="Password" type="password" helperText={this.state.textForPassword} error onChange={this.onInputPass} placeholder="..." style={{ width: 200 }} />
+              : <TextField label="Password" type="password" onChange={this.onInputPass} placeholder="..." style={{ width: 200 }} />}
             <p></p>
             <RegButt emailAndPass={this.state} app={this.props.app} seans={this} /> <LogButt app={this.props.app}  emailAndPass={this.state} seans={this} />
           </form>

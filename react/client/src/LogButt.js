@@ -27,6 +27,7 @@ export default class LogButt extends Component {
         .then(user => {
           if (user.fail) {
             // Если пользователя нет, сообщить об ошибке
+             this.props.seans.writeMessage("Пользователь с таким email не найден")
             console.log("Пользователь не найден")
           } else { //Сравнить логин и пароль
             if (user.password === password) {
@@ -43,6 +44,7 @@ export default class LogButt extends Component {
             }
             else {
               // Сообщить, что пароль неверный
+               this.props.seans.writeMessageOnPassword("Введен неверный пароль")
               console.log("Неверный пароль")
             }
           }
