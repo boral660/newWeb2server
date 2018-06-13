@@ -17,6 +17,22 @@ export default class App extends Component {
     };
   }
 
+
+  render() {
+    return (
+      <div className={style.app}>
+        <header className={style.appHeader}>
+          <h1 className={style.appTitle}>Welcome to(do)</h1>
+        </header>
+        <LogIn app={this} />
+        <form onSubmit={this.onSubmit} style={{ marginTop: 20 }}>
+          <EnterTask term={this.state.term} app={this} />
+          <Button />
+        </form>
+        <List app={this} />
+      </div>
+    );
+  }
   onSubmit = (event) => {
     event.preventDefault();
     if (this.state.term !== '') {
@@ -24,22 +40,21 @@ export default class App extends Component {
         term: '',
         items: [this.state.term, ...this.state.items]
       });
-      if(this.state.login)
-      {
+      if (this.state.login) {
         var todo = this.state.term;
         var enabled = 1; // при добавлении всегда тру
         var userEmail = this.state.email;
-        this.addToDO(todo,enabled,userEmail)
+        this.addToDO(todo, enabled, userEmail)
       }
 
     }
   }
-  // Занести строчку в базу данных
-  addToDO(todo,enabled,userEmail)
-  {
 
-     // Создаем и добавляем строку
-     var myFfet = {
+  // Занести строчку в базу данных
+  addToDO(todo, enabled, userEmail) {
+
+    // Создаем и добавляем строку
+    var myFfet = {
       method: "POST",
       body: JSON.stringify({
         todo: todo,
@@ -55,22 +70,20 @@ export default class App extends Component {
   }
 
   // Занести все строчки в таблицу
-  addToDOList()
-  {
+  addToDOList() {
     var items = this.state.items;
     var this1 = this;
-    items.forEach(function (item, i, items){
-      this1.addToDO(item,true,this1.state.email);
+    items.forEach(function (item, i, items) {
+      this1.addToDO(item, true, this1.state.email);
     })
   }
 
   // Загрузить из базы данных список
-  DwlndToDO()
-  {
+  DwlndToDO() {
     var userEmail = this.state.email;
 
-     // Создаем и добавляем строку
-     var myFfet = {
+    // Создаем и добавляем строку
+    var myFfet = {
       method: "POST",
       body: JSON.stringify({
         userEmail: userEmail
@@ -79,37 +92,21 @@ export default class App extends Component {
     };
     fetch('/todo/getuserall', myFfet)
       .then(res => res.json())
-      .then(ToDoList =>{
+      .then(ToDoList => {
         // Пропарсить и добавить полученный лист в список
         var items = [];
-        ToDoList.forEach(function (item, i, ToDoList){
-            items.push(item.todo);
+        ToDoList.forEach(function (item, i, ToDoList) {
+          items.push(item.todo);
         })
         this.setState({
           term: '',
           items: items
         });
-    });
+      });
 
     console.log("Получен список туду");
   }
-   
 
-  render() {
-    return (
-      <div className={style.app}>
-        <header className={style.appHeader}>
-          <h1 className={style.appTitle}>Welcome to(do)</h1>
-        </header>
-        <LogIn app={this}/>
-        <form onSubmit={this.onSubmit} style={{ marginTop: 20 }}>
-          <EnterTask term={this.state.term} app={this} />
-          <Button />
-        </form>
-        <List app={this} />
-      </div>
-    );
-  }
 }
 
 
